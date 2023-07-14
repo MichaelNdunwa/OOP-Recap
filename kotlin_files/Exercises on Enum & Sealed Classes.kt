@@ -7,7 +7,7 @@ package kotlin_files
  * it's a weekend day (Saturday or Sunday), and false otherwise.
  */
 
-enum class Weekday(var weekend: Boolean = false) {
+enum class Weekday(val weekend: Boolean = false) {
     Monday,
     Tuesday,
     Wednesday,
@@ -15,11 +15,13 @@ enum class Weekday(var weekend: Boolean = false) {
     Friday,
     Saturday(true),
     Sunday(true);
-
-//    fun Weekday.isWeekend() : Boolean {
-//        return if (this.weekend == weekend)
-//    }
 }
+
+fun Weekday.isWeekend(): Boolean {
+    return if (this.weekend == true) this.weekend
+    else this.weekend
+}
+
 
 
 /***
@@ -32,33 +34,45 @@ enum class Weekday(var weekend: Boolean = false) {
 
 enum class Color {
     Red,
-    Green,
+    Yellow,
     Blue;
 
-    fun mixColors(color1: Color, color2: Color) {
-        val color1 = color1.name.lowercase(); val color2 = color2.name.lowercase()
-         if (color1 == "red" && color2 == "red") {
-            println("$color1 + $color2 = Red")
+    companion object {
+        fun mixColors(color1: Color, color2: Color): String {
+            val color1 = color1.name.lowercase();
+            val color2 = color2.name.lowercase()
+            return when {
+                color1 == "red" && color2 == "red" -> "$color1 + $color2 = Red"
+                color1 == "blue" && color2 == "blue" -> "$color1 + $color2 = Blue"
+                color1 == "yellow" && color2 == "yellow" -> "$color1 + $color2 = Yellow"
+                color1 == "red" && color2 == "blue" || color1 == "blue" && color2 == "red" -> "$color1 + $color2 = Purple"
+                color1 == "red" && color2 == "yellow" || color1 == "yellow" && color2 == "red" -> "$color1 + $color2 = Orange"
+                color1 == "blue" && color2 == "yellow" || color1 == "yellow" && color2 == "blue" -> "$color1 + $color2 = Green"
+                else -> "I only mix primary colors. Try again with primary colors."
+            }
         }
-        else if (color1 == "blue" && color2 == "blue") {
-            println("$color1 + $color2 = Blue")
-        }
-        else if (color1 == "yellow" && color2 == "yellow") {
-            println("$color1 + $color2 = Yellow")
-        }
-        else if (color1 == "red" && color2 == "blue" || color1 == "blue" && color2 == "red") {
-            println("$color1 + $color2 = Purple")
-        }
-        else if (color1 == "red" && color2 == "yellow" || color1 == "yellow" && color2 == "red") {
-            println("$color1 + $color2 = Orange")
-        }
-        else if (color1 == "blue" && color2 == "yellow" || color1 == "yellow" && color2 == "blue") {
-            println("$color1 + $color2 = Green")
-        }
-        else println("I only mix primary colors. Try again with primary colors.")
     }
 }
 
+/*
 fun main() {
-    val red = Color.Red; val blue = Color.Blue; val green = Color.Green
+    val red = Color.Red; val blue = Color.Blue; val yellow = Color.Yellow;
+    println(Color.mixColors(yellow, red))
+}*/
+
+
+/**
+ * Exercise 3: Sealed Class
+ * Create a sealed class called Result that represents the result of an operation.
+ * Implement two subclasses: Success and Error. The Success class should contain a message
+ * indicating the successful result, while the Error class should contain an error message.
+ * Implement a function printResult() that takes a Result object and prints either the
+ * success message or the error message.
+ */
+
+sealed class Results {
+    class Success(val message: String = "Success!!")
+    class Error(val message: String = "Failed")
 }
+
+//fun printResult(result: Results) = println(Results.Success.message)
