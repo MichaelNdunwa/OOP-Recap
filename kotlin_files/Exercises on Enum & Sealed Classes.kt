@@ -75,4 +75,4 @@ sealed class Results {
     class Error(val message: String = "Failed")
 }
 
-//fun printResult(result: Results) = println(Results.Success.message)
+fun printResult(result: Results) = println()
