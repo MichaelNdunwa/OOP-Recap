@@ -1,5 +1,7 @@
 package kotlin_files
 
+import kotlin_files.Result
+
 /***
  * Exercise 1: Enum Class
  * Create an enum class called Weekday that represents the days of the week (Monday, Tuesday, etc.).
@@ -71,8 +73,26 @@ fun main() {
  */
 
 sealed class Results {
-    class Success(val message: String = "Success!!")
-    class Error(val message: String = "Failed")
+    class Success(val message: String = "Success!!") : Results()
+    class Error(val message: String = "Failed") : Results()
 }
 
-fun printResult(result: Results) = println()
+fun printResult(result: Results) {
+    when(result) {
+        is Results.Success -> println(result.message)
+        is Results.Error -> println(result.message)
+    }
+}
+
+fun main() {
+    printResult(Results.Success())
+}
+
+
+/***
+ * Exercise 4: Sealed Class
+ * Create a sealed class called Shape that represents different geometric shapes
+ * (Circle, Rectangle, Triangle, etc.). Implement subclasses for each shape and provide properties
+ * and methods specific to each shape. Implement a function calculateArea() that takes a Shape
+ * object and calculates its area based on the specific shape.
+ */
