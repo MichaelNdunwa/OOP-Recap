@@ -1,6 +1,10 @@
 package kotlin_files
 
-import kotlin_files.Result
+import java.time.LocalDate
+import java.time.format.TextStyle
+import java.util.Locale
+import kotlin.math.PI
+import kotlin.math.pow
 
 /***
  * Exercise 1: Enum Class
@@ -19,12 +23,48 @@ enum class Weekday(val weekend: Boolean = false) {
     Sunday(true);
 }
 
-fun Weekday.isWeekend(): Boolean {
-    return if (this.weekend == true) this.weekend
-    else this.weekend
+fun isWeekend(weekday: Weekday): Boolean {
+    val theDay = weekday.weekend
+    return if (theDay) theDay else theDay
 }
 
 
+fun checkCustomDay(customDay: String) {
+    var customDay = customDay.lowercase()
+    var dayList = mutableListOf<Weekday>()
+    Weekday.values().forEach {
+        if (customDay == it.name.lowercase()) dayList.add(it)
+    }
+
+    val today = dayList[0]
+    if (dayList.isNotEmpty()) {
+        when(today.weekend) {
+            true -> println("$today is weekend come back during weekdays.")
+            false -> println("$today is a weekday, come back during the weekend.")
+        }
+    } else {
+        println("Invalid input: $today is not in days of the week, try again.")
+    }
+}
+
+fun checkCurrentDay() {
+    var today = LocalDate.now().dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault()).lowercase()
+    var day: Weekday = Weekday.Monday
+    Weekday.values().forEach {
+        if (today == it.name.lowercase()) day = it
+    }
+
+    when (isWeekend(day)) {
+        true -> println("$today is weekend come back during weekdays.")
+        false -> println("$today is a weekday, come back during the weekend.")
+    }
+}
+
+/*fun main() {
+    println("Today is what?")
+    checkCustomDay(readln())
+
+}*/
 
 /***
  * Exercise 2: Enum Class
@@ -75,6 +115,9 @@ fun main() {
 sealed class Results {
     class Success(val message: String = "Success!!") : Results()
     class Error(val message: String = "Failed") : Results()
+    object Neutral {
+        fun print() = println("This is an object neutral inside a Results sealed class.")
+    }
 }
 
 fun printResult(result: Results) {
@@ -84,9 +127,10 @@ fun printResult(result: Results) {
     }
 }
 
-fun main() {
+/*fun main() {
     printResult(Results.Success())
-}
+    Results.Neutral.print()
+}*/
 
 
 /***
@@ -96,3 +140,71 @@ fun main() {
  * and methods specific to each shape. Implement a function calculateArea() that takes a Shape
  * object and calculates its area based on the specific shape.
  */
+
+sealed class Shapes {
+    class Circle(private val radius: Double) : Shapes() {
+        override fun area() = PI * radius.pow(2)
+    }
+
+    class Rectangle(
+        private val length: Double,
+        private val width: Double
+    ) : Shapes() {
+        override fun area() = length * width
+    }
+
+    class Triangle(
+        private val base: Double,
+        private val height: Double
+    ) : Shapes() {
+        override fun area() = (base * height) / 2.0
+    }
+
+    class Square(private val side: Double) : Shapes() {
+        override fun area() = side.pow(2)
+    }
+    abstract fun area(): Double
+}
+
+fun calculateArea(shape: Shapes) {
+    when (shape) {
+        is Shapes.Circle -> println("The area of the Circle is ${shape.area()}")
+        is Shapes.Rectangle -> println("The area of the Rectangle is ${shape.area()}")
+        is Shapes.Square -> println("The area of the Square is ${shape.area()}")
+        is Shapes.Triangle -> println("The area of the Triangle is ${shape.area()}")
+    }
+}
+
+/*fun main() {
+    calculateArea(Shapes.Rectangle(10.0, 5.0))
+    calculateArea(Shapes.Triangle(10.0, 8.0))
+}*/
+
+/***
+ * Exercise 5: Enum Class and Sealed Class Combined
+ * Create an enum class called Direction that represents the cardinal directions (North, South, East, West).
+ * Create a sealed class called Movement with subclasses Walk and Run. Implement a function move()
+ * that takes a Direction and a Movement object and prints a message indicating the movement direction and speed.
+ */
+
+enum class Directionz {
+    North, South, East, West;
+}
+
+sealed class Movements {
+    class Walk(val speed: Double): Movements() {}
+    class Run(val speed: Double): Movements() {}
+}
+
+fun move(direction: Directionz, movements: Movements) {
+    when (movements) {
+        is Movements.Run -> println("You're running in the $direction direction, with the speed of ${movements.speed} m/s.")
+        is Movements.Walk -> println("You're walking in the $direction direction, with the speed of ${movements.speed} m/s.")
+    }
+}
+
+/*
+fun main() {
+    move(Directionz.North, Movements.Walk(5.6))
+}*/
+

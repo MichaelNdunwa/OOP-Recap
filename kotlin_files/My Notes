@@ -1,0 +1,11 @@
+
+Chapter 16 - Enum and Sealed Classes:
+My enum day format			Java day format
+0 - Monday				    1 - Sunday
+1 - Tuesday				    2 - Monday
+2 - Wednesday				3 - Tuesday
+3 - Thursday				4 - Wednesday
+4 - Friday				    5 - Thursday
+5 - Saturday				6 - Friday
+6 - Sunday				    7 - Saturday
+

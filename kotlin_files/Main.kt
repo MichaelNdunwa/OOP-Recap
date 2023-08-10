@@ -1,12 +1,20 @@
 package kotlin_files
 
+import java.time.LocalDate
+import java.time.format.TextStyle
+import java.util.Calendar
+import java.util.Locale
+
 fun main() {
-    val success = Result.Success("SUCCESS!")
+  /*  val success = Result.Success("SUCCESS!")
     val progress = Result.Progress("PROGRESS!")
     val exception = IllegalArgumentException("NonRecoverableError")
     val nonRecoverableError = Result.Error.NonRecoverableError(exception, "NON_RECOVERABLE_ERROR")
 
-    getData(nonRecoverableError)
+    getData(nonRecoverableError)*/
+
+//    println(Calendar.getInstance().get(Calendar.DAY_OF_WEEK))
+    println(LocalDate.now().dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault()))
 }
 
 fun getData(result: Result) {
